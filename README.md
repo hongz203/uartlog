@@ -2,6 +2,14 @@
 
 Windows UART 로그를 받아 Raw/Filtered 두 창으로 보는 MVP 프로젝트입니다.
 
+## Screenshots
+
+### Main Window
+
+![Main Window](docs/images/main-window.png)
+
+> 스크린샷 파일 경로: `docs/images/main-window.png`
+
 ## Prerequisites
 
 - Visual Studio 2022 Community 이상
@@ -12,6 +20,15 @@ Windows UART 로그를 받아 Raw/Filtered 두 창으로 보는 MVP 프로젝트
 1. `UartLogTerminal/UartLogTerminal.sln` 열기
 2. NuGet restore 실행 (자동)
 3. `F5` 실행
+
+## Quick Usage
+
+1. 상단에서 `COM Port`, `Baud`를 선택하고 `Connect` 클릭
+2. `TX` 입력창에 명령을 입력하고 `Enter` 또는 `Send`
+3. `Add Filter Tab`으로 탭 추가
+4. 각 탭에서 `Keyword / Regex`, `Match case` 설정
+5. 각 탭에서 `FG`, `BG` 색상을 골라 키워드 하이라이트 확인
+6. 필요 시 `Paused` 또는 `Clear All` 사용
 
 ## Current Features (MVP)
 
@@ -40,6 +57,11 @@ Windows UART 로그를 받아 Raw/Filtered 두 창으로 보는 MVP 프로젝트
   - 탭별 필터 조건/색상/라인 목록
 - `MainWindow.xaml`
   - 컨트롤 레이아웃 및 바인딩
+
+## Notes
+
+- 스크린샷을 추가하려면 앱 실행 후 화면 캡처해서 `docs/images/main-window.png`로 저장하세요.
+- 저장소에 `docs/images/` 폴더가 없으면 먼저 생성하세요.
 
 ## Next Extensions
 
