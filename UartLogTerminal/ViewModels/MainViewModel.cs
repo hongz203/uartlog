@@ -1,7 +1,9 @@
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Media;
+using Microsoft.Win32;
 using UartLogTerminal.Filtering;
 using UartLogTerminal.Models;
 using UartLogTerminal.Services;
@@ -30,6 +32,7 @@ public sealed class MainViewModel : ObservableObject, IDisposable
     private long _totalReceived;
     private int _nextFilterNumber = 1;
     private FilterTabViewModel? _selectedFilterTab;
+    private bool _isBulkLoading;
 
     public MainViewModel(ISerialPortService serialPortService)
     {
@@ -46,6 +49,7 @@ public sealed class MainViewModel : ObservableObject, IDisposable
         DisconnectCommand = new RelayCommand(Disconnect, () => IsConnected);
         ClearCommand = new RelayCommand(ClearLogs);
         SendCommand = new RelayCommand(SendTx, () => IsConnected && !string.IsNullOrWhiteSpace(TxInput));
+        OpenLogFileCommand = new RelayCommand(OpenLogFile);
         AddFilterTabCommand = new RelayCommand(AddFilterTab);
         RemoveSelectedFilterTabCommand = new RelayCommand(RemoveSelectedFilterTab, () => SelectedFilterTab is not null);
 
@@ -66,6 +70,7 @@ public sealed class MainViewModel : ObservableObject, IDisposable
     public RelayCommand DisconnectCommand { get; }
     public RelayCommand ClearCommand { get; }
     public RelayCommand SendCommand { get; }
+    public RelayCommand OpenLogFileCommand { get; }
     public RelayCommand AddFilterTabCommand { get; }
     public RelayCommand RemoveSelectedFilterTabCommand { get; }
 
@@ -299,6 +304,7 @@ public sealed class MainViewModel : ObservableObject, IDisposable
         _entries.Clear();
         _rawLines.Clear();
         RawLogText = string.Empty;
+        _totalReceived = 0;
 
         foreach (FilterTabViewModel tab in FilterTabs)
         {
@@ -332,15 +338,61 @@ public sealed class MainViewModel : ObservableObject, IDisposable
                 return;
             }
 
-            LogEntry entry = new()
-            {
-                Timestamp = DateTime.Now,
-                Text = line
-            };
-
-            _totalReceived++;
-            AddEntry(entry);
+            IngestLine(line, DateTime.Now);
         }, null);
+    }
+
+    private void OpenLogFile()
+    {
+        OpenFileDialog dlg = new()
+        {
+            Title = "Open Log File",
+            Filter = "Log Files (*.log;*.txt)|*.log;*.txt|All Files (*.*)|*.*",
+            CheckFileExists = true
+        };
+
+        if (dlg.ShowDialog() != true)
+        {
+            return;
+        }
+
+        try
+        {
+            ClearLogs();
+
+            long loaded = 0;
+            _isBulkLoading = true;
+
+            foreach (string line in File.ReadLines(dlg.FileName))
+            {
+                IngestLine(line, DateTime.Now);
+                loaded++;
+            }
+            
+            RawLogText = JoinLines(_rawLines);
+            UpdateFooterCounters();
+            FooterText = $"Loaded {loaded:N0} lines from {Path.GetFileName(dlg.FileName)}";
+        }
+        catch (Exception ex)
+        {
+            FooterText = $"Load failed: {ex.Message}";
+        }
+        finally
+        {
+            _isBulkLoading = false;
+        }
+    }
+
+    private void IngestLine(string line, DateTime timestamp)
+    {
+        LogEntry entry = new()
+        {
+            Timestamp = timestamp,
+            Text = line
+        };
+
+        _totalReceived++;
+        AddEntry(entry);
     }
 
     private void AddEntry(LogEntry entry)
@@ -352,7 +404,10 @@ public sealed class MainViewModel : ObservableObject, IDisposable
         }
 
         EnqueueWithCap(_rawLines, FormatEntry(entry));
-        RawLogText = JoinLines(_rawLines);
+        if (!_isBulkLoading)
+        {
+            RawLogText = JoinLines(_rawLines);
+        }
 
         foreach (FilterTabViewModel tab in FilterTabs)
         {
@@ -369,7 +424,10 @@ public sealed class MainViewModel : ObservableObject, IDisposable
             }
         }
 
-        UpdateFooterCounters();
+        if (!_isBulkLoading)
+        {
+            UpdateFooterCounters();
+        }
     }
 
     private void RebuildFilterTab(FilterTabViewModel tab)

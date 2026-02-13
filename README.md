@@ -25,10 +25,11 @@ Windows UART 로그를 받아 Raw/Filtered 두 창으로 보는 MVP 프로젝트
 
 1. 상단에서 `COM Port`, `Baud`를 선택하고 `Connect` 클릭
 2. `TX` 입력창에 명령을 입력하고 `Enter` 또는 `Send`
-3. `Add Filter Tab`으로 탭 추가
-4. 각 탭에서 `Keyword / Regex`, `Match case` 설정
-5. 각 탭에서 `FG`, `BG` 색상을 골라 키워드 하이라이트 확인
-6. 필요 시 `Paused` 또는 `Clear All` 사용
+3. `Open Log File`로 저장된 로그 파일(`.log`, `.txt`)을 로드해 post-mortem 분석
+4. `Add Filter Tab`으로 탭 추가
+5. 각 탭에서 `Keyword / Regex`, `Match case` 설정
+6. 각 탭에서 `FG`, `BG` 색상을 골라 키워드 하이라이트 확인
+7. 필요 시 `Paused` 또는 `Clear All` 사용
 
 ## Current Features (MVP)
 
@@ -41,6 +42,7 @@ Windows UART 로그를 받아 Raw/Filtered 두 창으로 보는 MVP 프로젝트
   - 탭별 Foreground/Background 색상 설정
   - 매칭된 키워드 구간만 색상 하이라이트
 - TX 콘솔 (라인 송신, Enter 전송)
+- 저장 로그 파일 로드 (post-mortem 필터링)
 - Pause / Clear
 - Timestamp 표시
 

@@ -1,0 +1,20 @@
+[    0.000000] Booting Linux 6.1.0 on ARM64
+[    0.010000] printk: console [ttyS0] enabled
+[    0.120000] mmc0: new high speed SDHC card at address aaaa
+[    0.250000] EXT4-fs (mmcblk0p2): mounted filesystem
+[    0.400000] eth0: Link is Down
+[    1.002000] eth0: Link is Up - 1000Mbps/Full
+[    1.550000] app[221]: INFO: service started
+[    2.100000] app[221]: WARN: sensor timeout (retry=1)
+[    2.800000] app[221]: WARN: sensor timeout (retry=2)
+[    3.200000] app[221]: ERROR: sensor read failed
+[    3.900000] kernel: usb 1-1: reset high-speed USB device
+[    4.200000] kernel: can0: bus-off
+[    4.800000] kernel: can0: restarting
+[    5.500000] app[221]: INFO: recovery complete
+[    6.300000] thermal: cpu temp 78C
+[    7.100000] thermal: cpu temp 82C
+[    7.900000] thermal: cpu temp 87C
+[    8.100000] thermal: cpu temp 91C
+[    8.200000] thermal_zone0: critical temperature reached(90 C), shutting down
+[    8.250000] reboot: Power down

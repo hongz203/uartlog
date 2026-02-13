@@ -1,0 +1,201 @@
+[    0.000000] Booting Linux on physical CPU 0x0
+[    0.000000] Linux version 6.1.58-custom (builder@ci) (aarch64-linux-gnu-gcc 12.3.0) #42 SMP PREEMPT Tue Feb 11 14:03:12 UTC 2026
+[    0.000000] Machine model: Acme i.MX8M Embedded Board RevC
+[    0.000000] efi: UEFI not found.
+[    0.000000] OF: reserved mem: initialized node linux,cma, compatible id shared-dma-pool
+[    0.000000] cma: Reserved 128 MiB at 0x0000000078000000
+[    0.000000] Zone ranges:
+[    0.000000]   DMA      [mem 0x0000000040000000-0x00000000ffffffff]
+[    0.000000]   Normal   empty
+[    0.000000] Built 1 zonelists, mobility grouping on.  Total pages: 516096
+[    0.000000] Kernel command line: console=ttyLP0,115200 root=/dev/mmcblk2p2 rw rootwait loglevel=7
+[    0.000000] printk: console [ttyLP0] enabled
+[    0.002114] random: crng init done
+[    0.006822] sched_clock: 56 bits at 24MHz, resolution 41ns, wraps every 4398046511103ns
+[    0.017920] Calibrating delay loop... 199.68 BogoMIPS (lpj=998400)
+[    0.023101] pid_max: default: 32768 minimum: 301
+[    0.028550] Mount-cache hash table entries: 8192 (order: 4, 65536 bytes, linear)
+[    0.036480] Mountpoint-cache hash table entries: 8192 (order: 4, 65536 bytes, linear)
+[    0.051003] CPU: Testing write buffer coherency: ok
+[    0.056211] CPU features: detected: 32-bit EL0 Support
+[    0.061709] CPU features: detected: CRC32 instructions
+[    0.067115] CPU features: detected: Privileged Access Never
+[    0.073236] alternatives: applying system-wide alternatives
+[    0.081906] devtmpfs: initialized
+[    0.086177] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 7645041785100000 ns
+[    0.097120] futex hash table entries: 1024 (order: 4, 65536 bytes, linear)
+[    0.104713] pinctrl core: initialized pinctrl subsystem
+[    0.111144] NET: Registered PF_NETLINK/PF_ROUTE protocol family
+[    0.117863] DMA: preallocated 1024 KiB GFP_KERNEL pool for atomic allocations
+[    0.125647] DMA: preallocated 1024 KiB GFP_KERNEL|GFP_DMA pool for atomic allocations
+[    0.134211] audit: initializing netlink subsys (disabled)
+[    0.140012] thermal_sys: Registered thermal governor 'step_wise'
+[    0.146712] cpuidle: using governor menu
+[    0.151007] hw-breakpoint: found 6 breakpoint and 4 watchpoint registers.
+[    0.158329] ASID allocator initialised with 65536 entries
+[    0.164389] Serial: AMBA PL011 UART driver
+[    0.169112] imx-uart 30860000.serial: ttyLP0 at MMIO 0x30860000 (irq = 32, base_baud = 5000000) is a IMX
+[    0.179625] SCSI subsystem initialized
+[    0.184332] usbcore: registered new interface driver usbfs
+[    0.190251] usbcore: registered new interface driver hub
+[    0.196013] usbcore: registered new device driver usb
+[    0.201884] mc: Linux media interface: v0.10
+[    0.206935] videodev: Linux video capture interface: v2.00
+[    0.213006] cfg80211: Loading compiled-in X.509 certificates for regulatory database
+[    0.221502] cfg80211: Loaded X.509 cert 'sforshee: 00b28ddf47aef9cea7'
+[    0.229190] VFS: Disk quotas dquot_6.6.0
+[    0.233530] VFS: Dquot-cache hash table entries: 512 (order 0, 4096 bytes)
+[    0.241087] NET: Registered PF_INET protocol family
+[    0.246427] IP idents hash table entries: 65536 (order: 7, 524288 bytes, linear)
+[    0.255310] tcp_listen_portaddr_hash hash table entries: 2048 (order: 3, 32768 bytes, linear)
+[    0.265050] Table-perturb hash table entries: 65536 (order: 6, 262144 bytes, linear)
+[    0.273714] TCP established hash table entries: 32768 (order: 6, 262144 bytes, linear)
+[    0.282534] TCP bind hash table entries: 32768 (order: 8, 1048576 bytes, linear)
+[    0.290849] UDP hash table entries: 2048 (order: 4, 65536 bytes, linear)
+[    0.298129] NET: Registered PF_UNIX/PF_LOCAL protocol family
+[    0.304550] RPC: Registered named UNIX socket transport module.
+[    0.311039] workingset: timestamp_bits=46 max_order=19 bucket_order=0
+[    0.318201] squashfs: version 4.0 (2009/01/31) Phillip Lougher
+[    0.324605] NFS: Registering the id_resolver key type
+[    0.330224] Key type id_resolver registered
+[    0.334993] Key type id_legacy registered
+[    0.339602] nfs4filelayout_init: NFSv4 File Layout Driver Registering...
+[    0.346948] 9p: Installing v9fs 9p2000 file system support
+[    0.353460] NET: Registered PF_ALG protocol family
+[    0.358793] Key type asymmetric registered
+[    0.363318] Asymmetric key parser 'x509' registered
+[    0.368818] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 242)
+[    0.377338] io scheduler mq-deadline registered
+[    0.382441] io scheduler kyber registered
+[    0.386942] pcieport 0000:00:00.0: PME: Signaling with IRQ 47
+[    0.393214] pci 0000:01:00.0: BAR 0: assigned [mem 0x18000000-0x1800ffff]
+[    0.400735] ahci 0000:01:00.0: version 3.0
+[    0.405204] ahci 0000:01:00.0: AHCI 0001.0300 32 slots 2 ports 6 Gbps 0x3 impl SATA mode
+[    0.414222] scsi host0: ahci
+[    0.417434] scsi host1: ahci
+[    0.420644] ata1: SATA max UDMA/133 abar m2048@0x18000000 port 0x18000100 irq 48
+[    0.429245] ata2: SATA max UDMA/133 abar m2048@0x18000000 port 0x18000180 irq 48
+[    0.438011] mmc0: SDHCI controller on 30b40000.mmc [30b40000.mmc] using ADMA
+[    0.445891] mmc1: SDHCI controller on 30b50000.mmc [30b50000.mmc] using ADMA
+[    0.453600] mmc2: SDHCI controller on 30b60000.mmc [30b60000.mmc] using ADMA
+[    0.461367] usb usb1: New USB device found, idVendor=1d6b, idProduct=0002
+[    0.468748] usb usb1: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    0.476723] usb usb1: Product: xHCI Host Controller
+[    0.482053] usb usb1: Manufacturer: Linux 6.1.58-custom xhci-hcd
+[    0.488700] usb usb1: SerialNumber: xhci-hcd.0.auto
+[    0.494407] hub 1-0:1.0: USB hub found
+[    0.498634] hub 1-0:1.0: 1 port detected
+[    0.503001] usb 1-1: new high-speed USB device number 2 using xhci-hcd
+[    0.510113] usb 1-1: New USB device found, idVendor=0bda, idProduct=8153
+[    0.517330] r8152 1-1:1.0 eth0: v1.12.13
+[    0.521777] libphy: r8152-0:00 - Link is Down
+[    0.526552] can: controller area network core
+[    0.531380] can: raw protocol
+[    0.534621] can: broadcast manager protocol
+[    0.539258] m_can 308c0000.can can0: m_can device registered (irq=61, version=31)
+[    0.547816] i2c i2c-1: IMX I2C adapter registered
+[    0.553194] pca954x 1-0070: registered 4 multiplexed busses for I2C mux pca9548
+[    0.561251] rtc-pcf8563 2-0051: registered as rtc0
+[    0.566846] imx2-wdt 30280000.watchdog: timeout 60 sec (nowayout=0)
+[    0.573713] hwmon hwmon0: temp1_input not attached to any thermal zone
+[    0.581105] spi-nor spi0.0: mx25l12805d (16384 Kbytes)
+[    0.586779] 6 fixed-partitions partitions found on MTD device spi0.0
+[    0.593705] OF: Bad cell count for /soc@0/bus@30800000/ethernet@30be0000/tx-internal-delay-ps
+[    0.603068] fec 30be0000.ethernet eth1: registered PHC device 0
+[    0.609572] fec 30be0000.ethernet eth1: Link is Down
+[    0.615155] dwc3 38100000.dwc3: Configuration mismatch. dr_mode forced to host
+[    0.622961] dwc3 38100000.dwc3: failed to initialize core: -22
+[    0.629330] EXT4-fs (mmcblk2p2): mounted filesystem with ordered data mode. Opts: (null)
+[    0.638137] VFS: Mounted root (ext4 filesystem) on device 179:2.
+[    0.644706] devtmpfs: mounted
+[    0.648105] Freeing unused kernel memory: 3264K
+[    0.652904] Run /sbin/init as init process
+[    0.657291] systemd[1]: systemd 253.5 running in system mode (+PAM +AUDIT +SELINUX +APPARMOR +IMA +SMACK)
+[    0.667784] systemd[1]: Detected architecture arm64.
+[    0.683711] systemd[1]: Hostname set to <target-revc>.
+[    0.711229] systemd[1]: Started Journal Service.
+[    0.719577] systemd-journald[120]: Received client request to flush runtime journal.
+[    0.742105] systemd[1]: Starting udev Kernel Device Manager...
+[    0.751620] systemd-udevd[160]: Using default interface naming scheme 'v252'.
+[    0.770640] i2c i2c-2: Added multiplexed i2c bus 3
+[    0.776004] i2c i2c-2: Added multiplexed i2c bus 4
+[    0.781312] i2c i2c-2: Added multiplexed i2c bus 5
+[    0.786655] i2c i2c-2: Added multiplexed i2c bus 6
+[    1.023614] cfg80211: failed to load regulatory.db
+[    1.038116] brcmfmac: brcmf_fw_alloc_request: using brcm/brcmfmac43455-sdio for chip BCM4345/6
+[    1.053890] brcmfmac: brcmf_c_preinit_dcmds: Firmware: BCM4345/6 wl0: Jan 12 2026 03:17:10 version 7.45.241 (r690744)
+[    1.068991] Bluetooth: Core ver 2.22
+[    1.072834] NET: Registered PF_BLUETOOTH protocol family
+[    1.078568] Bluetooth: HCI device and connection manager initialized
+[    1.085270] Bluetooth: HCI socket layer initialized
+[    1.090825] Bluetooth: L2CAP socket layer initialized
+[    1.096470] Bluetooth: SCO socket layer initialized
+[    1.112006] r8152 1-1:1.0 eth0: carrier on
+[    1.116788] libphy: r8152-0:00 - Link is Up - 1Gbps/Full - flow control rx/tx
+[    1.124823] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[    1.131987] fec 30be0000.ethernet eth1: Link is Up - 100Mbps/Full
+[    1.139254] IPv6: ADDRCONF(NETDEV_CHANGE): eth1: link becomes ready
+[    1.161041] random: systemd: uninitialized urandom read (16 bytes read)
+[    1.201912] EXT4-fs (mmcblk2p2): re-mounted. Opts: (null)
+[    1.268440] audit: type=1130 audit(1707806410.254:2): pid=1 uid=0 auid=4294967295 ses=4294967295 msg='unit=systemd-udevd comm="systemd" exe="/lib/systemd/systemd" res=success'
+[    1.423101] watchdog: watchdog0: watchdog did not stop!
+[    2.042662] imx-thermal 30260000.tempmon: temp = 46C
+[    3.045119] imx-thermal 30260000.tempmon: temp = 47C
+[    4.049005] imx-thermal 30260000.tempmon: temp = 48C
+[    5.053661] can0: bus-off
+[    5.056470] can0: restarting after bus-off
+[    5.242113] m_can 308c0000.can can0: entered error warning state
+[    6.112404] m_can 308c0000.can can0: entered error passive state
+[    7.752116] mmc2: Timeout waiting for hardware interrupt.
+[    7.758093] mmc2: sdhci: ============ SDHCI REGISTER DUMP ===========
+[    7.765144] mmc2: sdhci: Sys addr: 0x00000000 | Version:  0x00004e01
+[    7.772123] mmc2: sdhci: Blk size: 0x00007200 | Blk cnt:  0x00000000
+[    7.779111] mmc2: sdhci: Argument: 0x00000000 | Trn mode: 0x00000023
+[    7.786078] mmc2: sdhci: Present:  0x01ff0001 | Host ctl: 0x00000017
+[    7.793044] mmc2: sdhci: Power:    0x0000000f | Blk gap:  0x00000000
+[    7.800020] mmc2: sdhci: Wake-up:  0x00000000 | Clock:    0x00000007
+[    7.807089] mmc2: sdhci: Timeout:  0x0000000e | Int stat: 0x00000000
+[    7.814093] mmc2: sdhci: Int enab: 0x037f0033 | Sig enab: 0x037f0033
+[    7.821092] mmc2: sdhci: ACmd stat: 0x00000000 | Slot int: 0x00000000
+[    7.828103] mmc2: sdhci: Caps:     0x37e8c8b2 | Caps_1:   0x10006f77
+[    7.835072] mmc2: sdhci: Cmd:      0x00000000 | Max curr: 0x00000000
+[    7.842014] mmc2: sdhci: Host ctl2: 0x00000000
+[    7.846992] mmc2: sdhci: ============================================
+[    8.114522] EXT4-fs error (device mmcblk2p2): ext4_find_entry:1531: inode #2: comm rsyslogd: reading directory lblock 0
+[    8.126119] Aborting journal on device mmcblk2p2-8.
+[    8.131511] EXT4-fs (mmcblk2p2): Remounting filesystem read-only
+[    8.138011] Buffer I/O error on dev mmcblk2p2, logical block 1048576, lost async page write
+[    8.147509] systemd-journald[120]: Failed to write entry (29 items, 825 bytes), ignoring: Read-only file system
+[    8.170553] Out of memory: Killed process 402 (python3) total-vm:503920kB, anon-rss:228996kB, file-rss:1024kB, shmem-rss:0kB, UID:0 pgtables:712kB oom_score_adj:0
+[    8.186831] oom_reaper: reaped process 402 (python3), now anon-rss:0kB, file-rss:1024kB, shmem-rss:0kB
+[    9.012444] usb 1-1: reset high-speed USB device number 2 using xhci-hcd
+[    9.019801] r8152 1-1:1.0 eth0: Tx status -71
+[    9.024602] NETDEV WATCHDOG: eth0 (r8152): transmit queue 0 timed out 5240 ms
+[    9.032326] ------------[ cut here ]------------
+[    9.037314] WARNING: CPU: 1 PID: 0 at net/sched/sch_generic.c:477 dev_watchdog+0x290/0x2ac
+[    9.046476] Modules linked in: brcmfmac brcmutil cfg80211 rfkill bnep hci_uart bluetooth r8152 mii can_raw can_dev
+[    9.057822] CPU: 1 PID: 0 Comm: swapper/1 Not tainted 6.1.58-custom #42
+[    9.064867] Hardware name: Acme i.MX8M Embedded Board RevC (DT)
+[    9.071321] pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[    9.078866] pc : dev_watchdog+0x290/0x2ac
+[    9.083283] lr : dev_watchdog+0x290/0x2ac
+[    9.087676] sp : ffff80000a9f3e80
+[    9.091333] x29: ffff80000a9f3e80 x28: ffff0000082b6000
+[    9.096907] Call trace:
+[    9.099695]  dev_watchdog+0x290/0x2ac
+[    9.103706]  call_timer_fn+0x3c/0x1ac
+[    9.107714]  __run_timers+0x1f4/0x2c8
+[    9.111727]  run_timer_softirq+0x2c/0x78
+[    9.116014]  __do_softirq+0x124/0x2ec
+[    9.120028]  irq_exit+0xf0/0x118
+[    9.123677]  __handle_domain_irq+0x78/0xcc
+[    9.128067]  gic_handle_irq+0x68/0x13c
+[    9.132074]  call_on_irq_stack+0x20/0x4c
+[    9.136374]  do_interrupt_handler+0x54/0x64
+[    9.140852]  el1_interrupt+0x30/0x7c
+[    9.144852]  el1h_64_irq_handler+0x18/0x24
+[    9.149340]  el1h_64_irq+0x64/0x68
+[    9.153078] ---[ end trace 0000000000000000 ]---
+[   10.005774] imx-thermal 30260000.tempmon: temp = 89C
+[   10.011398] thermal thermal_zone0: critical temperature reached(90 C),shutting down
+[   10.020121] reboot: Power down

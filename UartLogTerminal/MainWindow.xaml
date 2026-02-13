@@ -83,6 +83,10 @@
                           IsChecked="{Binding IsPaused}" />
                 <Button Margin="10,0,0,0"
                         Padding="12,4"
+                        Content="Open Log File"
+                        Command="{Binding OpenLogFileCommand}" />
+                <Button Margin="10,0,0,0"
+                        Padding="12,4"
                         Content="Clear All"
                         Command="{Binding ClearCommand}" />
             </StackPanel>
