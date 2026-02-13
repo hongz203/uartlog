@@ -33,6 +33,8 @@ public sealed class MainViewModel : ObservableObject, IDisposable
     private int _nextFilterNumber = 1;
     private FilterTabViewModel? _selectedFilterTab;
     private bool _isBulkLoading;
+    private bool _isFilterPanelBottom;
+    private bool _isDarkTheme = true;
 
     public MainViewModel(ISerialPortService serialPortService)
     {
@@ -52,6 +54,8 @@ public sealed class MainViewModel : ObservableObject, IDisposable
         OpenLogFileCommand = new RelayCommand(OpenLogFile);
         AddFilterTabCommand = new RelayCommand(AddFilterTab);
         RemoveSelectedFilterTabCommand = new RelayCommand(RemoveSelectedFilterTab, () => SelectedFilterTab is not null);
+        ToggleFilterPanelDockCommand = new RelayCommand(ToggleFilterPanelDock);
+        ToggleThemeCommand = new RelayCommand(ToggleTheme);
 
         _serialPortService.LineReceived += OnLineReceived;
         _serialPortService.ErrorOccurred += OnSerialError;
@@ -73,6 +77,8 @@ public sealed class MainViewModel : ObservableObject, IDisposable
     public RelayCommand OpenLogFileCommand { get; }
     public RelayCommand AddFilterTabCommand { get; }
     public RelayCommand RemoveSelectedFilterTabCommand { get; }
+    public RelayCommand ToggleFilterPanelDockCommand { get; }
+    public RelayCommand ToggleThemeCommand { get; }
 
     public bool IsConnected => _serialPortService.IsOpen;
 
@@ -149,6 +155,42 @@ public sealed class MainViewModel : ObservableObject, IDisposable
         }
     }
 
+    public bool IsFilterPanelBottom
+    {
+        get => _isFilterPanelBottom;
+        set
+        {
+            if (SetProperty(ref _isFilterPanelBottom, value))
+            {
+                RaisePropertyChanged(nameof(FilterDockText));
+            }
+        }
+    }
+
+    public string FilterDockText => IsFilterPanelBottom ? "Filter Panel: Bottom" : "Filter Panel: Right";
+    public bool IsDarkTheme
+    {
+        get => _isDarkTheme;
+        set
+        {
+            if (SetProperty(ref _isDarkTheme, value))
+            {
+                RaisePropertyChanged(nameof(ThemeToggleText));
+                RaisePropertyChanged(nameof(ThemePanelBrush));
+                RaisePropertyChanged(nameof(ThemeEditorBrush));
+                RaisePropertyChanged(nameof(ThemeListBrush));
+                RaisePropertyChanged(nameof(ThemeForegroundBrush));
+                RebuildAllFilterTabs();
+            }
+        }
+    }
+
+    public string ThemeToggleText => IsDarkTheme ? "Theme: Dark" : "Theme: Light";
+    public Brush ThemePanelBrush => IsDarkTheme ? ToBrush("#252526") : ToBrush("#FFFFFF");
+    public Brush ThemeEditorBrush => IsDarkTheme ? ToBrush("#1F1F1F") : ToBrush("#EFEFEF");
+    public Brush ThemeListBrush => IsDarkTheme ? ToBrush("#1E1E1E") : ToBrush("#F7F7F7");
+    public Brush ThemeForegroundBrush => IsDarkTheme ? ToBrush("#D4D4D4") : ToBrush("#1F1F1F");
+
     public void Dispose()
     {
         foreach (FilterTabViewModel tab in FilterTabs)
@@ -215,6 +257,16 @@ public sealed class MainViewModel : ObservableObject, IDisposable
         FilterTabs.Remove(SelectedFilterTab);
         SelectedFilterTab = FilterTabs.LastOrDefault();
         UpdateFooterCounters();
+    }
+
+    private void ToggleFilterPanelDock()
+    {
+        IsFilterPanelBottom = !IsFilterPanelBottom;
+    }
+
+    private void ToggleTheme()
+    {
+        IsDarkTheme = !IsDarkTheme;
     }
 
     private void RefreshPorts()
@@ -453,6 +505,14 @@ public sealed class MainViewModel : ObservableObject, IDisposable
         UpdateFooterCounters();
     }
 
+    private void RebuildAllFilterTabs()
+    {
+        foreach (FilterTabViewModel tab in FilterTabs)
+        {
+            RebuildFilterTab(tab);
+        }
+    }
+
     private bool TryIsMatch(FilterTabViewModel tab, LogEntry entry, out bool isMatch, out string? error)
     {
         try
@@ -483,8 +543,9 @@ public sealed class MainViewModel : ObservableObject, IDisposable
         }
     }
 
-    private static IReadOnlyList<LineSegment> BuildSegments(FilterTabViewModel tab, string text)
+    private IReadOnlyList<LineSegment> BuildSegments(FilterTabViewModel tab, string text)
     {
+        Brush baseForeground = IsDarkTheme ? Brushes.Gainsboro : Brushes.Black;
         List<(int Start, int Length)> matches = FindMatches(tab, text);
         if (matches.Count == 0)
         {
@@ -493,7 +554,7 @@ public sealed class MainViewModel : ObservableObject, IDisposable
                 new LineSegment
                 {
                     Text = text,
-                    ForegroundBrush = Brushes.Black,
+                    ForegroundBrush = baseForeground,
                     BackgroundBrush = Brushes.Transparent
                 }
             ];
@@ -509,7 +570,7 @@ public sealed class MainViewModel : ObservableObject, IDisposable
                 segments.Add(new LineSegment
                 {
                     Text = text.Substring(cursor, start - cursor),
-                    ForegroundBrush = Brushes.Black,
+                    ForegroundBrush = baseForeground,
                     BackgroundBrush = Brushes.Transparent
                 });
             }
@@ -529,7 +590,7 @@ public sealed class MainViewModel : ObservableObject, IDisposable
             segments.Add(new LineSegment
             {
                 Text = text[cursor..],
-                ForegroundBrush = Brushes.Black,
+                ForegroundBrush = baseForeground,
                 BackgroundBrush = Brushes.Transparent
             });
         }
@@ -629,5 +690,10 @@ public sealed class MainViewModel : ObservableObject, IDisposable
         }
 
         return sb.ToString();
+    }
+
+    private static Brush ToBrush(string hex)
+    {
+        return (Brush)new BrushConverter().ConvertFromString(hex)!;
     }
 }
