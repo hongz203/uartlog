@@ -23,15 +23,15 @@ Windows UART 로그를 받아 Raw/Filtered 두 창으로 보는 MVP 프로젝트
 
 ## Quick Usage
 
-1. 상단에서 `COM Port`, `Baud`를 선택하고 `Connect` 클릭
-2. 필요하면 `Advanced Serial Settings`를 펼쳐 `Data bits / Parity / Stop bits / Flow control / DTR / RTS` 설정
-3. `TX` 입력창에 명령을 입력하고 `Enter` 또는 `Send`
-4. `Open Log File`로 저장된 로그 파일(`.log`, `.txt`)을 로드해 post-mortem 분석
-5. 테마 아이콘 버튼으로 Dark/Light 전환
-6. `Add Filter Tab`으로 탭 추가
-7. 각 탭에서 `Keyword / Regex`, `Match case` 설정
-8. 각 탭에서 `FG`, `BG` 색상을 골라 키워드 하이라이트 확인
-9. `Filter Panel: Right/Bottom` 버튼으로 필터 패널 위치 변경 후 splitter로 크기 조절
+1. 상단에서 `COM Port` 선택 후 옆의 `Refresh` 아이콘으로 포트 목록 갱신
+2. `Baud`를 선택하고 `Connect`(plug 아이콘) 클릭
+3. 필요하면 `Baud` 옆 톱니바퀴 아이콘으로 `Advanced Serial Settings`를 펼쳐 `Data bits / Parity / Stop bits / Flow control / DTR / RTS` 설정
+4. 상단 `Filters` 아이콘들로 필터 탭 추가/삭제 및 패널 도킹 방향 전환
+5. `TX` 입력창에 명령을 입력하고 `Enter` 또는 `Send`
+6. `Open Log File`(folder-open 아이콘)로 저장된 로그 파일(`.log`, `.txt`)을 로드해 post-mortem 분석
+7. 테마 아이콘 버튼으로 Dark/Light 전환
+8. 각 탭에서 `Keyword / Regex`, `Match case` 설정
+9. 각 탭에서 `FG`, `BG` 색상을 골라 키워드 하이라이트 확인
 10. Filtered 창에서 마우스로 원하는 구간을 드래그 선택 후 `Ctrl+C`로 복사
 11. 필요 시 `Paused` 또는 `Clear All` 사용
 
@@ -46,16 +46,19 @@ Windows UART 로그를 받아 Raw/Filtered 두 창으로 보는 MVP 프로젝트
 - Dark / Light 테마 전환
 - VS Code 스타일의 플랫 UI(테두리 최소화, tone 기반 구분)
 - Raw 로그 창
+  - UART 실시간 수신 시 `Live` + 녹색 점 표시
+  - 파일 로드 시 파일명 표시
 - 필터 탭 다중화
   - 탭별 키워드/Regex/대소문자 설정
   - 탭별 Foreground/Background 색상 설정
   - 매칭된 키워드 구간만 색상 하이라이트
-  - 필터 패널 도킹 전환(Right/Bottom) + splitter 리사이즈
+  - 상단 아이콘으로 필터 탭 추가/삭제 및 패널 도킹 전환(Right/Bottom)
   - Filtered 로그는 RichTextBox 기반으로 문자 단위 드래그 선택/복사 지원
 - TX 콘솔 (라인 송신, Enter 전송)
 - 저장 로그 파일 로드 (post-mortem 필터링)
 - Pause / Clear
 - Timestamp 표시
+- VS Code 스타일 오버레이 스크롤바 (hover 시 표시)
 
 ## Architecture
 

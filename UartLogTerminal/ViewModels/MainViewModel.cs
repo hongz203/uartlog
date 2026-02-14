@@ -43,6 +43,8 @@ public sealed class MainViewModel : ObservableObject, IDisposable
     private bool _dtrEnable = true;
     private bool _rtsEnable = true;
     private bool _showAdvancedSerialSettings;
+    private bool _isLiveSource = true;
+    private string _rawSourceName = "Live";
 
     public MainViewModel(ISerialPortService serialPortService)
     {
@@ -186,6 +188,18 @@ public sealed class MainViewModel : ObservableObject, IDisposable
     {
         get => _footerText;
         private set => SetProperty(ref _footerText, value);
+    }
+
+    public bool IsLiveSource
+    {
+        get => _isLiveSource;
+        private set => SetProperty(ref _isLiveSource, value);
+    }
+
+    public string RawSourceName
+    {
+        get => _rawSourceName;
+        private set => SetProperty(ref _rawSourceName, value);
     }
 
     public string TxInput
@@ -364,6 +378,7 @@ public sealed class MainViewModel : ObservableObject, IDisposable
                 SelectedHandshake,
                 DtrEnable,
                 RtsEnable);
+            SetLiveSource();
             ConnectionStatus = $"Connected ({SelectedPort} @ {SelectedBaudRate})";
             StatusBrush = Brushes.ForestGreen;
             FooterText = "Connected.";
@@ -456,6 +471,7 @@ public sealed class MainViewModel : ObservableObject, IDisposable
                 return;
             }
 
+            SetLiveSource();
             IngestLine(line, DateTime.Now);
         }, null);
     }
@@ -477,6 +493,7 @@ public sealed class MainViewModel : ObservableObject, IDisposable
         try
         {
             ClearLogs();
+            SetFileSource(Path.GetFileName(dlg.FileName));
 
             long loaded = 0;
             _isBulkLoading = true;
@@ -761,5 +778,17 @@ public sealed class MainViewModel : ObservableObject, IDisposable
     private static Brush ToBrush(string hex)
     {
         return (Brush)new BrushConverter().ConvertFromString(hex)!;
+    }
+
+    private void SetLiveSource()
+    {
+        IsLiveSource = true;
+        RawSourceName = "Live";
+    }
+
+    private void SetFileSource(string fileName)
+    {
+        IsLiveSource = false;
+        RawSourceName = string.IsNullOrWhiteSpace(fileName) ? "Loaded File" : fileName;
     }
 }
