@@ -18,7 +18,15 @@ public sealed class SerialPortService : ISerialPortService
         return SerialPort.GetPortNames().OrderBy(x => x).ToArray();
     }
 
-    public void Open(string portName, int baudRate)
+    public void Open(
+        string portName,
+        int baudRate,
+        int dataBits,
+        Parity parity,
+        StopBits stopBits,
+        Handshake handshake,
+        bool dtrEnable,
+        bool rtsEnable)
     {
         if (IsOpen)
         {
@@ -27,8 +35,12 @@ public sealed class SerialPortService : ISerialPortService
 
         _serialPort = new SerialPort(portName, baudRate)
         {
-            DtrEnable = true,
-            RtsEnable = true,
+            DataBits = dataBits,
+            Parity = parity,
+            StopBits = stopBits,
+            Handshake = handshake,
+            DtrEnable = dtrEnable,
+            RtsEnable = rtsEnable,
             NewLine = "\n",
             ReadTimeout = 500
         };

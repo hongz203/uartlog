@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.IO;
+using System.IO.Ports;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Media;
@@ -35,6 +36,13 @@ public sealed class MainViewModel : ObservableObject, IDisposable
     private bool _isBulkLoading;
     private bool _isFilterPanelBottom;
     private bool _isDarkTheme = true;
+    private int _selectedDataBits = 8;
+    private Parity _selectedParity = Parity.None;
+    private StopBits _selectedStopBits = StopBits.One;
+    private Handshake _selectedHandshake = Handshake.None;
+    private bool _dtrEnable = true;
+    private bool _rtsEnable = true;
+    private bool _showAdvancedSerialSettings;
 
     public MainViewModel(ISerialPortService serialPortService)
     {
@@ -43,6 +51,10 @@ public sealed class MainViewModel : ObservableObject, IDisposable
 
         AvailablePorts = new ObservableCollection<string>();
         BaudRates = new ObservableCollection<int> { 9600, 19200, 38400, 57600, 115200, 230400, 460800, 921600 };
+        DataBitsOptions = new ObservableCollection<int> { 5, 6, 7, 8 };
+        ParityOptions = new ObservableCollection<Parity> { Parity.None, Parity.Even, Parity.Odd, Parity.Mark, Parity.Space };
+        StopBitsOptions = new ObservableCollection<StopBits> { StopBits.One, StopBits.Two };
+        HandshakeOptions = new ObservableCollection<Handshake> { Handshake.None, Handshake.RequestToSend, Handshake.XOnXOff, Handshake.RequestToSendXOnXOff };
         FilterTabs = new ObservableCollection<FilterTabViewModel>();
         ColorOptions = BuildColorOptions();
 
@@ -66,6 +78,10 @@ public sealed class MainViewModel : ObservableObject, IDisposable
 
     public ObservableCollection<string> AvailablePorts { get; }
     public ObservableCollection<int> BaudRates { get; }
+    public ObservableCollection<int> DataBitsOptions { get; }
+    public ObservableCollection<Parity> ParityOptions { get; }
+    public ObservableCollection<StopBits> StopBitsOptions { get; }
+    public ObservableCollection<Handshake> HandshakeOptions { get; }
     public ObservableCollection<FilterTabViewModel> FilterTabs { get; }
     public ObservableCollection<ColorOption> ColorOptions { get; }
 
@@ -104,6 +120,48 @@ public sealed class MainViewModel : ObservableObject, IDisposable
     {
         get => _isPaused;
         set => SetProperty(ref _isPaused, value);
+    }
+
+    public int SelectedDataBits
+    {
+        get => _selectedDataBits;
+        set => SetProperty(ref _selectedDataBits, value);
+    }
+
+    public Parity SelectedParity
+    {
+        get => _selectedParity;
+        set => SetProperty(ref _selectedParity, value);
+    }
+
+    public StopBits SelectedStopBits
+    {
+        get => _selectedStopBits;
+        set => SetProperty(ref _selectedStopBits, value);
+    }
+
+    public Handshake SelectedHandshake
+    {
+        get => _selectedHandshake;
+        set => SetProperty(ref _selectedHandshake, value);
+    }
+
+    public bool DtrEnable
+    {
+        get => _dtrEnable;
+        set => SetProperty(ref _dtrEnable, value);
+    }
+
+    public bool RtsEnable
+    {
+        get => _rtsEnable;
+        set => SetProperty(ref _rtsEnable, value);
+    }
+
+    public bool ShowAdvancedSerialSettings
+    {
+        get => _showAdvancedSerialSettings;
+        set => SetProperty(ref _showAdvancedSerialSettings, value);
     }
 
     public string RawLogText
@@ -297,7 +355,15 @@ public sealed class MainViewModel : ObservableObject, IDisposable
 
         try
         {
-            _serialPortService.Open(SelectedPort, SelectedBaudRate);
+            _serialPortService.Open(
+                SelectedPort,
+                SelectedBaudRate,
+                SelectedDataBits,
+                SelectedParity,
+                SelectedStopBits,
+                SelectedHandshake,
+                DtrEnable,
+                RtsEnable);
             ConnectionStatus = $"Connected ({SelectedPort} @ {SelectedBaudRate})";
             StatusBrush = Brushes.ForestGreen;
             FooterText = "Connected.";
