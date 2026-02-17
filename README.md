@@ -44,6 +44,7 @@ Windows UART 로그를 받아 Raw/Filtered 두 창으로 보는 MVP 프로젝트
   - DTR / RTS 토글
 - Connect / Disconnect
 - Dark / Light 테마 전환
+- Dark 모드 색상 팔레트: VS Code `Dark+` 톤(`#1E1E1E`, `#252526`, `#3C3C3C`, `#D4D4D4`) 반영
 - VS Code 스타일의 플랫 UI(테두리 최소화, tone 기반 구분)
 - Raw 로그 창
   - UART 실시간 수신 시 `Live` + 녹색 점 표시

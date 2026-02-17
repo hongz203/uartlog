@@ -63,8 +63,8 @@
             <Setter Property="Margin" Value="6,0,0,0" />
             <Style.Triggers>
                 <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Background" Value="#3A3D41" />
-                    <Setter Property="Foreground" Value="#A4AAB4" />
+                    <Setter Property="Background" Value="#3C3C3C" />
+                    <Setter Property="Foreground" Value="#858585" />
                 </Trigger>
                 <DataTrigger Binding="{Binding DataContext.IsDarkTheme, RelativeSource={RelativeSource AncestorType=Window}}" Value="False">
                     <Setter Property="Background" Value="#007ACC" />
@@ -76,8 +76,8 @@
             <Setter Property="Width" Value="34" />
             <Setter Property="Height" Value="30" />
             <Setter Property="Padding" Value="0" />
-            <Setter Property="Background" Value="#3A3D41" />
-            <Setter Property="Foreground" Value="#D0D4DB" />
+            <Setter Property="Background" Value="#3C3C3C" />
+            <Setter Property="Foreground" Value="#CCCCCC" />
             <Style.Triggers>
                 <DataTrigger Binding="{Binding DataContext.IsDarkTheme, RelativeSource={RelativeSource AncestorType=Window}}" Value="False">
                     <Setter Property="Background" Value="#E2E5E9" />
@@ -105,8 +105,8 @@
                     <Setter Property="Background" Value="#1177BB" />
                 </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Background" Value="#3A3D41" />
-                    <Setter Property="Foreground" Value="#A4AAB4" />
+                    <Setter Property="Background" Value="#3C3C3C" />
+                    <Setter Property="Foreground" Value="#858585" />
                 </Trigger>
                 <DataTrigger Binding="{Binding DataContext.IsDarkTheme, RelativeSource={RelativeSource AncestorType=Window}}" Value="False">
                     <Setter Property="Background" Value="#007ACC" />
@@ -125,7 +125,7 @@
         <Style x:Key="VsCodeScrollThumbStyle" TargetType="Thumb">
             <Setter Property="MinWidth" Value="18" />
             <Setter Property="MinHeight" Value="18" />
-            <Setter Property="Background" Value="#5CA7ADB5" />
+            <Setter Property="Background" Value="#66797979" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Thumb">
@@ -135,7 +135,7 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#8CB4BAC2" />
+                    <Setter Property="Background" Value="#99797979" />
                 </Trigger>
                 <DataTrigger Binding="{Binding DataContext.IsDarkTheme, RelativeSource={RelativeSource AncestorType=Window}}" Value="False">
                     <Setter Property="Background" Value="#70848A92" />
@@ -197,7 +197,7 @@
         </Style>
 
         <Style TargetType="TextBox">
-            <Setter Property="Background" Value="#1F1F1F" />
+            <Setter Property="Background" Value="#1E1E1E" />
             <Setter Property="Foreground" Value="#D4D4D4" />
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="Padding" Value="6,4" />
@@ -214,9 +214,9 @@
         </Style>
 
         <Style TargetType="ComboBox">
-            <Setter Property="Background" Value="#2B2E33" />
+            <Setter Property="Background" Value="#3C3C3C" />
             <Setter Property="Foreground" Value="#D4D4D4" />
-            <Setter Property="BorderBrush" Value="#3A3D41" />
+            <Setter Property="BorderBrush" Value="#3C3C3C" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="Padding" Value="8,3" />
             <Setter Property="Template">
@@ -269,8 +269,8 @@
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsEnabled" Value="False">
-                                <Setter TargetName="ComboBorder" Property="Background" Value="#3A3D41" />
-                                <Setter Property="Foreground" Value="#A4AAB4" />
+                                <Setter TargetName="ComboBorder" Property="Background" Value="#3C3C3C" />
+                                <Setter Property="Foreground" Value="#858585" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -299,12 +299,12 @@
         </Style>
 
         <Style TargetType="ComboBoxItem">
-            <Setter Property="Background" Value="#2B2E33" />
+            <Setter Property="Background" Value="#3C3C3C" />
             <Setter Property="Foreground" Value="#D4D4D4" />
             <Setter Property="Padding" Value="8,5" />
             <Style.Triggers>
                 <Trigger Property="IsHighlighted" Value="True">
-                    <Setter Property="Background" Value="#3A3D41" />
+                    <Setter Property="Background" Value="#2A2D2E" />
                 </Trigger>
                 <DataTrigger Binding="{Binding DataContext.IsDarkTheme, RelativeSource={RelativeSource AncestorType=Window}}" Value="False">
                     <Setter Property="Background" Value="#FFFFFF" />
@@ -314,7 +314,7 @@
         </Style>
 
         <Style TargetType="TabItem">
-            <Setter Property="Background" Value="#2B2E33" />
+            <Setter Property="Background" Value="#2D2D2D" />
             <Setter Property="Foreground" Value="#D4D4D4" />
             <Setter Property="Padding" Value="14,7" />
             <Setter Property="Margin" Value="0,0,2,0" />
@@ -330,10 +330,10 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="TabRoot" Property="Background" Value="#3A3D41" />
+                                <Setter TargetName="TabRoot" Property="Background" Value="#1E1E1E" />
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Foreground" Value="#8E949D" />
+                                <Setter Property="Foreground" Value="#858585" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -370,7 +370,7 @@
         </Style>
 
         <Style x:Key="DockHintTextStyle" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="#9DA0A6" />
+            <Setter Property="Foreground" Value="#808080" />
             <Style.Triggers>
                 <DataTrigger Binding="{Binding DataContext.IsDarkTheme, RelativeSource={RelativeSource AncestorType=Window}}" Value="False">
                     <Setter Property="Foreground" Value="#666666" />
@@ -405,7 +405,7 @@
                                     Width="2"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Stretch"
-                                    Background="#4AAAB4BE"
+                                    Background="#66007ACC"
                                     Opacity="0" />
                         </Grid>
                         <ControlTemplate.Triggers>
@@ -434,7 +434,7 @@
                                     Height="2"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Center"
-                                    Background="#4AAAB4BE"
+                                    Background="#66007ACC"
                                     Opacity="0" />
                         </Grid>
                         <ControlTemplate.Triggers>

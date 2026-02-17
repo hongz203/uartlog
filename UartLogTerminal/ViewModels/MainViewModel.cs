@@ -259,7 +259,7 @@ public sealed class MainViewModel : ObservableObject, IDisposable
 
     public string ThemeToggleText => IsDarkTheme ? "Theme: Dark" : "Theme: Light";
     public Brush ThemePanelBrush => IsDarkTheme ? ToBrush("#252526") : ToBrush("#FFFFFF");
-    public Brush ThemeEditorBrush => IsDarkTheme ? ToBrush("#1F1F1F") : ToBrush("#EFEFEF");
+    public Brush ThemeEditorBrush => IsDarkTheme ? ToBrush("#1E1E1E") : ToBrush("#EFEFEF");
     public Brush ThemeListBrush => IsDarkTheme ? ToBrush("#1E1E1E") : ToBrush("#F7F7F7");
     public Brush ThemeForegroundBrush => IsDarkTheme ? ToBrush("#D4D4D4") : ToBrush("#1F1F1F");
 
