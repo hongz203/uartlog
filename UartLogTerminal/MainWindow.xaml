@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:UartLogTerminal"
         mc:Ignorable="d"
         Title="UART Log Terminal"
+        Icon="pack://application:,,,/Assets/terminal-lines.ico"
         Height="900"
         Width="1480"
         MinHeight="700"

@@ -46,6 +46,7 @@ Windows UART 로그를 받아 Raw/Filtered 두 창으로 보는 MVP 프로젝트
 - Dark / Light 테마 전환
 - Dark 모드 색상 팔레트: VS Code `Dark+` 톤(`#1E1E1E`, `#252526`, `#3C3C3C`, `#D4D4D4`) 반영
 - Light 모드 색상 팔레트: VS Code `Light+` 계열 톤(`#FFFFFF`, `#F3F3F3`, `#ECECEC`) 반영
+- 앱 아이콘 커스텀 적용 (`Assets/terminal-lines.ico`, 투명 배경)
 - VS Code 스타일의 플랫 UI(테두리 최소화, tone 기반 구분)
 - 패널 경계 구분선 상시 노출 제거 (톤 차이로 구분, splitter hover 시만 가이드 표시)
 - 필터 설정 입력창(`Tab Name`, `Keyword / Regex`) 다크/라이트 대비 강화
