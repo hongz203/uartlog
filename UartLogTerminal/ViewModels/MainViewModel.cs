@@ -258,9 +258,9 @@ public sealed class MainViewModel : ObservableObject, IDisposable
     }
 
     public string ThemeToggleText => IsDarkTheme ? "Theme: Dark" : "Theme: Light";
-    public Brush ThemePanelBrush => IsDarkTheme ? ToBrush("#252526") : ToBrush("#FFFFFF");
-    public Brush ThemeEditorBrush => IsDarkTheme ? ToBrush("#1E1E1E") : ToBrush("#EFEFEF");
-    public Brush ThemeListBrush => IsDarkTheme ? ToBrush("#1E1E1E") : ToBrush("#F7F7F7");
+    public Brush ThemePanelBrush => IsDarkTheme ? ToBrush("#252526") : ToBrush("#F3F3F3");
+    public Brush ThemeEditorBrush => IsDarkTheme ? ToBrush("#1E1E1E") : ToBrush("#FFFFFF");
+    public Brush ThemeListBrush => IsDarkTheme ? ToBrush("#1E1E1E") : ToBrush("#FFFFFF");
     public Brush ThemeForegroundBrush => IsDarkTheme ? ToBrush("#D4D4D4") : ToBrush("#1F1F1F");
 
     public void Dispose()
