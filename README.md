@@ -21,6 +21,14 @@ Windows UART 로그를 받아 Raw/Filtered 두 창으로 보는 MVP 프로젝트
 2. NuGet restore 실행 (자동)
 3. `F5` 실행
 
+## Binary (No VS Required)
+
+- 배포 바이너리 ZIP: `releases/UartLogTerminal-win-x64-selfcontained.zip`
+- 대상: Windows x64
+- 실행 방법:
+  1. ZIP 압축 해제
+  2. `UartLogTerminal.exe` 실행
+
 ## Quick Usage
 
 1. 상단에서 `COM Port` 선택 후 옆의 `Refresh` 아이콘으로 포트 목록 갱신
