@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2048</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+      background: #faf8ef;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    h1 {
+      font-size: 56px;
+      font-weight: 800;
+      color: #776e65;
+      letter-spacing: -2px;
+      margin-bottom: 10px;
+    }
+
+    .header {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .scores {
+      display: flex;
+      gap: 8px;
+    }
+
+    .score-box {
+      background: #bbada0;
+      border-radius: 6px;
+      padding: 8px 16px;
+      text-align: center;
+      min-width: 80px;
+    }
+
+    .score-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #eee4da;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .score-value {
+      font-size: 22px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+    button {
+      background: #8f7a66;
+      color: #f9f6f2;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 18px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      -webkit-appearance: none;
+    }
+
+    button:active {
+      background: #7a6657;
+    }
+
+    .message {
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+      min-height: 28px;
+      margin-bottom: 8px;
+    }
+
+    .message span {
+      font-size: 18px;
+      font-weight: 700;
+      color: #f65e3b;
+    }
+
+    .board-wrapper {
+      background: #bbada0;
+      border-radius: 10px;
+      padding: 12px;
+      width: 100%;
+      max-width: 480px;
+      -webkit-touch-callout: none;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .cell {
+      aspect-ratio: 1;
+      border-radius: 6px;
+      background: rgba(238, 228, 218, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tile {
+      width: 100%;
+      height: 100%;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(16px, 5vw, 36px);
+      font-weight: 800;
+      transition: transform 0.1s ease, background-color 0.1s ease;
+    }
+
+    .tile.new {
+      -webkit-animation: pop 0.15s ease forwards;
+      animation: pop 0.15s ease forwards;
+    }
+
+    .tile.merged {
+      -webkit-animation: bounce 0.2s ease forwards;
+      animation: bounce 0.2s ease forwards;
+    }
+
+    @-webkit-keyframes pop {
+      0%   { transform: scale(0); }
+      60%  { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes pop {
+      0%   { transform: scale(0); }
+      60%  { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    @-webkit-keyframes bounce {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes bounce {
+      0%   { transform: scale(1); }
+      50%  { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+
+    .hint {
+      margin-top: 16px;
+      font-size: 13px;
+      color: #9c8775;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>2048</h1>
+    <div class="scores">
+      <div class="score-box">
+        <div class="score-label">점수</div>
+        <div class="score-value" id="score">0</div>
+      </div>
+      <div class="score-box">
+        <div class="score-label">최고</div>
+        <div class="score-value" id="best">0</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="buttons">
+    <button id="newGame">새 게임</button>
+    <button id="undoBtn">되돌리기</button>
+  </div>
+
+  <div class="message" id="message"></div>
+
+  <div class="board-wrapper" id="boardWrapper">
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <p class="hint">← → ↑ ↓ 키 또는 스와이프로 이동</p>
+
+  <script>
+    (function () {
+      var SIZE = 4;
+      var grid = [];
+      var score = 0;
+      var best = parseInt(localStorage.getItem('2048best') || '0', 10);
+      var prevState = null;
+      var gameOver = false;
+      var won = false;
+      var keepPlaying = false;
+
+      var gridEl = document.getElementById('grid');
+      var scoreEl = document.getElementById('score');
+      var bestEl = document.getElementById('best');
+      var msgEl = document.getElementById('message');
+
+      bestEl.textContent = best;
+
+      /* ---- 색상 맵 ---- */
+      var COLORS = {
+        0:    { bg: 'rgba(238,228,218,0.35)', fg: '#776e65' },
+        2:    { bg: '#eee4da', fg: '#776e65' },
+        4:    { bg: '#ede0c8', fg: '#776e65' },
+        8:    { bg: '#f2b179', fg: '#f9f6f2' },
+        16:   { bg: '#f59563', fg: '#f9f6f2' },
+        32:   { bg: '#f67c5f', fg: '#f9f6f2' },
+        64:   { bg: '#f65e3b', fg: '#f9f6f2' },
+        128:  { bg: '#edcf72', fg: '#f9f6f2' },
+        256:  { bg: '#edcc61', fg: '#f9f6f2' },
+        512:  { bg: '#edc850', fg: '#f9f6f2' },
+        1024: { bg: '#edc53f', fg: '#f9f6f2' },
+        2048: { bg: '#edc22e', fg: '#f9f6f2' }
+      };
+
+      function getColor(val) {
+        return COLORS[val] || { bg: '#3c3a32', fg: '#f9f6f2' };
+      }
+
+      /* ---- 초기화 ---- */
+      function init() {
+        grid = [];
+        score = 0;
+        gameOver = false;
+        won = false;
+        keepPlaying = false;
+        prevState = null;
+        msgEl.innerHTML = '';
+        scoreEl.textContent = '0';
+
+        for (var r = 0; r < SIZE; r++) {
+          grid[r] = [];
+          for (var c = 0; c < SIZE; c++) {
+            grid[r][c] = 0;
+          }
+        }
+        addRandom();
+        addRandom();
+        render();
+      }
+
+      function cloneGrid(g) {
+        return g.map(function (row) { return row.slice(); });
+      }
+
+      function addRandom(isNew) {
+        var empty = [];
+        for (var r = 0; r < SIZE; r++) {
+          for (var c = 0; c < SIZE; c++) {
+            if (grid[r][c] === 0) empty.push([r, c]);
+          }
+        }
+        if (empty.length === 0) return null;
+        var pos = empty[Math.floor(Math.random() * empty.length)];
+        var val = Math.random() < 0.9 ? 2 : 4;
+        grid[pos[0]][pos[1]] = val;
+        return { r: pos[0], c: pos[1], isNew: true };
+      }
+
+      /* ---- 렌더링 ---- */
+      function render(newPos, mergedPos) {
+        gridEl.innerHTML = '';
+        for (var r = 0; r < SIZE; r++) {
+          for (var c = 0; c < SIZE; c++) {
+            var val = grid[r][c];
+            var cell = document.createElement('div');
+            cell.className = 'cell';
+
+            if (val !== 0) {
+              var tile = document.createElement('div');
+              tile.className = 'tile';
+              var col = getColor(val);
+              tile.style.background = col.bg;
+              tile.style.color = col.fg;
+              tile.textContent = val;
+
+              var isNew = newPos && newPos.r === r && newPos.c === c;
+              var isMerged = mergedPos && mergedPos.some(function (p) { return p.r === r && p.c === c; });
+
+              if (isNew) tile.classList.add('new');
+              if (isMerged) tile.classList.add('merged');
+
+              cell.appendChild(tile);
+            }
+
+            gridEl.appendChild(cell);
+          }
+        }
+      }
+
+      /* ---- 이동 로직 ---- */
+      function slide(row) {
+        var arr = row.filter(function (v) { return v !== 0; });
+        var merged = [];
+        var mergeIdx = [];
+        for (var i = 0; i < arr.length - 1; i++) {
+          if (arr[i] === arr[i + 1]) {
+            arr[i] *= 2;
+            score += arr[i];
+            mergeIdx.push(i);
+            arr.splice(i + 1, 1);
+          }
+        }
+        while (arr.length < SIZE) arr.push(0);
+        return { row: arr, mergeIdx: mergeIdx };
+      }
+
+      function move(dir) {
+        if (gameOver) return false;
+        if (won && !keepPlaying) return false;
+
+        prevState = {
+          grid: cloneGrid(grid),
+          score: score
+        };
+
+        var moved = false;
+        var mergedPositions = [];
+        var newPos = null;
+
+        if (dir === 'left') {
+          for (var r = 0; r < SIZE; r++) {
+            var res = slide(grid[r].slice());
+            for (var c = 0; c < SIZE; c++) {
+              if (grid[r][c] !== res.row[c]) moved = true;
+              grid[r][c] = res.row[c];
+            }
+            res.mergeIdx.forEach(function (ci) { mergedPositions.push({ r: r, c: ci }); });
+          }
+        } else if (dir === 'right') {
+          for (var r = 0; r < SIZE; r++) {
+            var res = slide(grid[r].slice().reverse());
+            var rev = res.row.reverse();
+            for (var c = 0; c < SIZE; c++) {
+              if (grid[r][c] !== rev[c]) moved = true;
+              grid[r][c] = rev[c];
+            }
+            res.mergeIdx.forEach(function (ci) { mergedPositions.push({ r: r, c: SIZE - 1 - ci }); });
+          }
+        } else if (dir === 'up') {
+          for (var c = 0; c < SIZE; c++) {
+            var col = [];
+            for (var r = 0; r < SIZE; r++) col.push(grid[r][c]);
+            var res = slide(col);
+            for (var r = 0; r < SIZE; r++) {
+              if (grid[r][c] !== res.row[r]) moved = true;
+              grid[r][c] = res.row[r];
+            }
+            res.mergeIdx.forEach(function (ri) { mergedPositions.push({ r: ri, c: c }); });
+          }
+        } else if (dir === 'down') {
+          for (var c = 0; c < SIZE; c++) {
+            var col = [];
+            for (var r = 0; r < SIZE; r++) col.push(grid[r][c]);
+            var res = slide(col.reverse());
+            var rev = res.row.reverse();
+            for (var r = 0; r < SIZE; r++) {
+              if (grid[r][c] !== rev[r]) moved = true;
+              grid[r][c] = rev[r];
+            }
+            res.mergeIdx.forEach(function (ri) { mergedPositions.push({ r: SIZE - 1 - ri, c: c }); });
+          }
+        }
+
+        if (!moved) {
+          prevState = null;
+          return false;
+        }
+
+        if (score > best) {
+          best = score;
+          localStorage.setItem('2048best', best);
+          bestEl.textContent = best;
+        }
+        scoreEl.textContent = score;
+
+        newPos = addRandom(true);
+        checkState();
+        render(newPos, mergedPositions);
+        return true;
+      }
+
+      function hasMove() {
+        for (var r = 0; r < SIZE; r++) {
+          for (var c = 0; c < SIZE; c++) {
+            if (grid[r][c] === 0) return true;
+            if (c < SIZE - 1 && grid[r][c] === grid[r][c + 1]) return true;
+            if (r < SIZE - 1 && grid[r][c] === grid[r + 1][c]) return true;
+          }
+        }
+        return false;
+      }
+
+      function checkState() {
+        if (!won) {
+          for (var r = 0; r < SIZE; r++) {
+            for (var c = 0; c < SIZE; c++) {
+              if (grid[r][c] === 2048) {
+                won = true;
+                msgEl.innerHTML = '<span>🎉 2048 달성! 계속하려면 계속 플레이하세요.</span>';
+                keepPlaying = true;
+                return;
+              }
+            }
+          }
+        }
+        if (!hasMove()) {
+          gameOver = true;
+          msgEl.innerHTML = '<span>게임 오버! 새 게임을 시작하세요.</span>';
+        }
+      }
+
+      function undo() {
+        if (!prevState) return;
+        grid = prevState.grid;
+        score = prevState.score;
+        prevState = null;
+        scoreEl.textContent = score;
+        gameOver = false;
+        msgEl.innerHTML = '';
+        render();
+      }
+
+      /* ---- 키보드 입력 ---- */
+      document.addEventListener('keydown', function (e) {
+        var map = {
+          ArrowLeft: 'left', ArrowRight: 'right',
+          ArrowUp: 'up', ArrowDown: 'down'
+        };
+        if (map[e.key]) {
+          e.preventDefault();
+          move(map[e.key]);
+        }
+      });
+
+      /* ---- 터치/스와이프 (Safari 지원) ---- */
+      var touchStartX = 0;
+      var touchStartY = 0;
+      var MIN_SWIPE = 30;
+
+      document.getElementById('boardWrapper').addEventListener('touchstart', function (e) {
+        var t = e.touches[0];
+        touchStartX = t.clientX;
+        touchStartY = t.clientY;
+      }, { passive: true });
+
+      document.getElementById('boardWrapper').addEventListener('touchend', function (e) {
+        var t = e.changedTouches[0];
+        var dx = t.clientX - touchStartX;
+        var dy = t.clientY - touchStartY;
+        if (Math.abs(dx) < MIN_SWIPE && Math.abs(dy) < MIN_SWIPE) return;
+        if (Math.abs(dx) > Math.abs(dy)) {
+          move(dx > 0 ? 'right' : 'left');
+        } else {
+          move(dy > 0 ? 'down' : 'up');
+        }
+        e.preventDefault();
+      }, { passive: false });
+
+      /* ---- 버튼 ---- */
+      document.getElementById('newGame').addEventListener('click', init);
+      document.getElementById('undoBtn').addEventListener('click', undo);
+
+      init();
+    })();
+  </script>
+</body>
+</html>
